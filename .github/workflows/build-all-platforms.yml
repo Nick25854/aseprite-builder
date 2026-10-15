@@ -60,7 +60,8 @@ jobs:
           
           # Download icudtl.dat (required for ICU support)
           mkdir skia\out\Release-x64 -Force
-          Invoke-WebRequest -Uri "https://github.com/aseprite/skia/releases/download/m124-08a5439a6b/icudtl.dat" -OutFile "skia/out/Release-x64/icudtl.dat" -UseBasicParsing
+          curl.exe --fail --location --retry 5 --retry-all-errors --output "skia/out/Release-x64/icudtl.dat" "https://github.com/aseprite/skia/releases/download/m124-08a5439a6b/icudtl.dat"
+          if ($LASTEXITCODE -ne 0) { throw "Failed to download icudtl.dat" }
           Write-Host "Skia extracted successfully with icudtl.dat"
 
       - name: Initialize MSVC Environment
